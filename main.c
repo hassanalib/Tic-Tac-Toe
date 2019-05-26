@@ -27,23 +27,39 @@ int ties = 0;
 
 void initializeBoard(char space[9]) {
     
-    char index = '1';
-    int iterator = 0;
+    int index = 0;
     
-        for (iterator = 0; iterator < 9; iterator++) {
-            space[iterator] = index;
-            index++;
+        for (index = 0; index < 9; index++) {
+            space[index] = 0;
+            
         }
+    
+}
+
+// new function print with array and hard code numbers
+
+void displayBoard() {
+    
+    printf("\n 1  |  2  |  3 \n");
+    printf("---------------\n");
+    printf(" 4  |  5  |  6 \n");
+    printf("---------------\n");
+    printf(" 7  |  8  |  9 \n");
+    
     
 }
 
 void printBoard(char space[9]) {
     
-    printf("\n %c  |  %c  |  %c \n", space[0], space[1], space[2]);
+    int indexCheck = 0;
+    
+    printf("\n %c  | %c  |  %c \n", space[0], space[1], space[2]);
     printf("---------------\n");
     printf(" %c  |  %c  |  %c \n", space[3], space[4], space[5]);
     printf("---------------\n");
     printf(" %c  |  %c  |  %c \n", space[6], space[7], space[8]);
+    
+    
     
 }
 
@@ -80,22 +96,33 @@ int getChoice() {
     
 }
 
-char getLocation() {
-    
+char getLocation(char space[9]) {
+        
     int location;
+    int validMove;
     
     scanf("%d", &location);
     fgetc(stdin);
     
-        while ((location > 9) && (location < 1)) {
+        while ((location > 9) || (location < 1)) {
+            
+            if ((space[location] == 'X') || (space[location] == 'O')) {
 
-                printf("Sorry, your input is invalid. Please enter again:\n");
-                printf("Which space (1 - 9) would you like to go in?");
-                
+                printf("\nSorry, your input is invalid. Please enter again\n");
+                printf("Which space (1 - 9) would you like to go in?: ");
+
                 scanf("%d", &location);
                 fgetc(stdin);
 
             }
+
+        printf("\nSorry, your input is invalid. Please enter again\n");
+        printf("Which space (1 - 9) would you like to go in?: ");
+
+        scanf("%d", &location);
+        fgetc(stdin);
+
+        }
 
         return location;
     
@@ -104,67 +131,13 @@ char getLocation() {
 
 
 char placeMark(char markType, char space[9], int numberChoice) {
-  
-    // Check if space is occupied
     
-    
-        if (numberChoice == 1) {
-            space[0] = markType;
-        } 
-        
-        if (numberChoice == 2) {
-            space[1] = markType;
-        }
-        
-        if (numberChoice == 3) {
-            space[2] = markType;
-        } 
-        
-        if (numberChoice == 4) {
-            space[3] = markType;
-        } 
-        
-        if (numberChoice == 5) {
-            space[4] = markType;
-        }
-        
-        if (numberChoice == 6) {
-            space[5] = markType;
-        }
-        
-        if (numberChoice == 7) {
-            space[6] = markType;
-        }
-        
-        if (numberChoice == 8) {
-            space[7] = markType;
-        } 
-        
-        if (numberChoice == 9) {
-            space[8] = markType;
-        }
-        
+        space[numberChoice - 1] = markType;
+        printBoard(space);
+            
         return markType;
     
-}// FUNCTION TO PLACE MARK (VARIABLE IN MAIN) IN BOARD SPOT (USING PARAMETER)
-// MAKE MORE EFFICIENT BY MAKING FUNCTION LIKE THIS:
-
-/*
- 
- double getValueofCoins(int totalCalc, int coinValue, char* coinName) {
-
-    double coinType;
-    
-    coinType = totalCalc / coinValue;
-    totalCalc = totalCalc % coinValue; 
-    printf("\n%s: %.0lf", coinName, coinType);
-    
-    return totalCalc;
-    
 }
- 
- */
-
 
 void checkWin(char space[9]) {
     
@@ -177,66 +150,90 @@ void checkWin(char space[9]) {
     } else if ((space[0] == space[1] && space[1] == space[2]) && (space[0] && space[1] && space[2] == 'O')) {
         printf("\nCOMPUTER Win!");
         computerWin = true;
+        losses++;
     
     } else if ((space[3] == space[4] && space[4] == space[5]) && (space[3] && space[4] && space[5] == 'X')) {
         printf("\nHUMAN Win!");
         humanWin = true;
+        wins++;
         
     } else if ((space[3] == space[4] && space[4] == space[5]) && (space[3] && space[4] && space[5] == 'O')) {
         printf("\nCOMPUTER Win!");
         computerWin = true;
+        losses++;
         
     } else if ((space[6] == space[7] && space[7] == space[8]) && (space[6] && space[7] && space[8] == 'X')) {
         printf("\nHUMAN Win!");
         humanWin = true;
+        wins++;
         
     } else if ((space[6] == space[7] && space[7] == space[8]) && (space[6] && space[7] && space[8] == 'O')) {
         printf("\nCOMPUTER Win!");
         computerWin = true;
+        losses++;
         
         // Vertical
         
     } else if ((space[0] == space[3] && space[3] == space[6]) && (space[0] && space[3] && space[6] == 'X')) {
         printf("\nHUMAN Win!");
         humanWin = true;
+        wins++;
         
     
     } else if ((space[0] == space[3] && space[3] == space[6]) && (space[0] && space[3] && space[6] == 'O')) {
         printf("\nCOMPUTER Win!");
         computerWin = true;
+        losses++;
         
     } else if ((space[1] == space[4] && space[4] == space[7]) && (space[1] && space[4] && space[7] == 'X')) {
         printf("\nHUMAN Win!");
         humanWin = true;
+        wins++;
         
     } else if ((space[1] == space[4] && space[4] == space[7]) && (space[1] && space[4] && space[7] == 'O')) {
         printf("\nCOMPUTER Win!");
         computerWin = true;
+        losses++;
         
     } else if ((space[2] == space[5] && space[5] == space[8]) && (space[2] && space[5] && space[8] == 'X')) {
         printf("\nHUMAN Win!");
         humanWin = true;
+        wins++;
         
     } else if ((space[2] == space[5] && space[5] == space[8]) && (space[2] && space[5] && space[8] == 'O')) {
         printf("\nCOMPUTER Win!");
         computerWin = true;
+        losses++;
         
         // Diagonal
         
     }  else if ((space[0] == space[4] && space[4] == space[8]) && (space[0] && space[4] && space[8] == 'X')) {
         printf("\nHUMAN Win!");
         humanWin = true; 
+        wins++;
     
     } else if ((space[0] == space[4] && space[4] == space[8]) && (space[0] && space[4] && space[8] == 'O')) {
         printf("\nCOMPUTER Win!");
         computerWin = true; 
+        losses++;
+        
+    } else if ((space[2] == space[4] && space[4] == space[6]) && (space[2]) && (space[4] && space[8] == 'X')) {
+        printf("\nHUMAN Win!");
+        humanWin = true; 
+        wins++;
+       
+    } else if ((space[2] == space[4] && space[4] == space[6]) && (space[2]) && (space[4] && space[8] == 'O')) {
+        printf("\nCOMPUTER Win!");
+        computerWin = true; 
+        losses++;
         
         // Tie Game
         
-    } else if (space[0] != '1' && space[1] != '2' && space[2] != '3' && space[3] != '4' && space[4] != '5' && space[5] != '6' && space[6] != '7' && space[7] != '8' && space[8] != '9') {
+    } else if ((space[0] != '\0') && (space[1] != '\0') && (space[2] != '\0') && (space[3] != '\0') && (space[4] != '\0') && (space[5] != '\0') && (space[6] != '\0') && (space[7] != '\0') && (space[8] != '\0')) {
 
         printf("\nTie Game");
         tieGame = true;
+        ties++;
         
     }
     
@@ -261,7 +258,7 @@ int main(int argc, char** argv) {
     // while choice != 0 loop around entire program
     
     printf("Welcome to Tic Tac Toe!\n");
-    printf("\nPress the number of the space you would like to place your 'x' in.");
+    printf("\nPress the number of the space you would like to place your 'x' in.\n");
     printf("\nTo win, get three x's in a row.\n");
     
     printChoices();
@@ -269,25 +266,27 @@ int main(int argc, char** argv) {
 
             if (choice == 1) {
                 
-                printBoard(boardSpace);
+                displayBoard();
                 printf("\nWhich space (1 - 9) would you like to go in?: ");
-                markLocation = getLocation();
+                markLocation = getLocation(boardSpace);
                 
                 while (((computerWin == false) && (humanWin == false) && (tieGame == false))) {
                     
                     placeMark('X', boardSpace, markLocation);
-                    printBoard(boardSpace);
                     checkWin(boardSpace);
                     
-                    placeMark('O', boardSpace, 1 + rand() % 9);
+                    //while () {
+                        
+                    //}
+                    
                     printf("\nComputer has placed their mark\n");
-                    printBoard(boardSpace);
+                    placeMark('O', boardSpace, 1 + rand() % 9);
+                    
                     checkWin(boardSpace);
                     
                     printf("\nWhich space (1 - 9) would you like to go in?: ");
-                    markLocation = getLocation();
+                    markLocation = getLocation(boardSpace);
                     placeMark('X', boardSpace, markLocation);
-                    printBoard(boardSpace);
                     checkWin(boardSpace);
                     
                 }
