@@ -104,17 +104,7 @@ char getLocation(char space[9]) {
     scanf("%d", &location);
     fgetc(stdin);
     
-        while ((location > 9) || (location < 1)) {
-            
-            if ((space[location] == 'X') || (space[location] == 'O')) {
-
-                printf("\nSorry, your input is invalid. Please enter again\n");
-                printf("Which space (1 - 9) would you like to go in?: ");
-
-                scanf("%d", &location);
-                fgetc(stdin);
-
-            }
+        while ((location > 9) || (location < 1) || (space[location] == 'X') || (space[location] == 'O')) {
 
         printf("\nSorry, your input is invalid. Please enter again\n");
         printf("Which space (1 - 9) would you like to go in?: ");
