@@ -104,7 +104,7 @@ char getLocation(char space[9]) {
     scanf("%d", &location);
     fgetc(stdin);
     
-        while ((location > 9) || (location < 1) || (space[location] == 'X') || (space[location] == 'O')) {
+        while ((location > 9) || (location < 1) || (space[location - 1] == 'X') || (space[location - 1] == 'O')) {
 
         printf("\nSorry, your input is invalid. Please enter again\n");
         printf("Which space (1 - 9) would you like to go in?: ");
@@ -235,19 +235,17 @@ int main(int argc, char** argv) {
     srand( time( NULL ));
     
     char boardSpace[9];
-    int choice;
+    int choice = 5; // so program doesn't automatically end
     int gamesPlayed;
     int counter;
     int markLocation;
-    int wins = 0;
-    int losses = 0;
-    int ties = 0;
-
+    int random;
+    
     initializeBoard(boardSpace);
     
-    // while choice != 0 loop around entire program
+    while (choice != 0) {
     
-    printf("Welcome to Tic Tac Toe!\n");
+    printf("\nWelcome to Tic Tac Toe!\n");
     printf("\nPress the number of the space you would like to place your 'x' in.\n");
     printf("\nTo win, get three x's in a row.\n");
     
@@ -255,6 +253,9 @@ int main(int argc, char** argv) {
     choice = getChoice();
 
             if (choice == 1) {
+                
+                
+            } else if (choice == 2) {
                 
                 displayBoard();
                 printf("\nWhich space (1 - 9) would you like to go in?: ");
@@ -265,52 +266,55 @@ int main(int argc, char** argv) {
                     placeMark('X', boardSpace, markLocation);
                     checkWin(boardSpace);
                     
-                    //while () {
+                    placeMark('O', boardSpace, random = 1 + rand() % 9);
+                    
+                    if ((boardSpace[random - 1] == 'X') || (boardSpace[random - 1] == 'O')) {
                         
-                    //}
+                       placeMark('O', boardSpace, 1 + rand() % 9);
+                        
+                    }
                     
-                    printf("\nComputer has placed their mark\n");
-                    placeMark('O', boardSpace, 1 + rand() % 9);
+                    printf("\nComputer has placed their mark on spot %d\n", random);
+                    
+                    // create rand variable
+                    // in function call, assign it to rand % 9 
+                    // create function with random number as parameter and boardSpace
+                    // copy space occupied code from placemark
                     
                     checkWin(boardSpace);
                     
-                    printf("\nWhich space (1 - 9) would you like to go in?: ");
-                    markLocation = getLocation(boardSpace);
-                    placeMark('X', boardSpace, markLocation);
-                    checkWin(boardSpace);
+                    if (computerWin == false) {
+                    
+                        printf("\nWhich space (1 - 9) would you like to go in?: ");
+                        markLocation = getLocation(boardSpace);
+                        placeMark('X', boardSpace, markLocation);
+                        checkWin(boardSpace);
+                    
+                    }
                     
                 }
                 
                 gamesPlayed++;
                 
-            } else if (choice == 2) {
-                
-                
-                
             } else if (choice == 3) {
                 
                 
                 
-            } else {
-                
-                printf("THIS SHOULDN'T HAPPEN");
-                
             }
-
-        
-   
-    printf("\n\nThanks for playing. Goodbye!\n");
+    
+    }
     
     if (gamesPlayed > 0) {
         
         printf("\nHere are your statistics for the games you played!\n");
-        
+
         printf("\nWins: %d\n", wins);
         printf("Losses: %d\n", losses);
         printf("Ties: %d\n", ties);
+        
+        printf("\nThanks for playing. Goodbye!\n");
 
     }
-    
     
     return (EXIT_SUCCESS);
 }
